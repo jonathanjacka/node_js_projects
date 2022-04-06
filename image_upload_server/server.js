@@ -1,6 +1,7 @@
 const http = require('http');
 const url = require('url');
 const services = require('./services');
+const jsonBody = require('body/json');
 
 const server = http.createServer();
 
@@ -18,16 +19,13 @@ server.on('request', (req, res) => {
     console.log(headers);
   }
 
-  const body = [];
-  http.request
-    .on('data', (chunk) => {
-      body.push(chunk);
-    })
-    .on('end', () => {
-      const parsedJSON = JSON.parse(Buffer.concat(body));
-      const newUser = parsedJSON[0]['userName'];
-      services.createUser(newUser);
-    });
+  jsonBody(req, res, (error, body) => {
+    if (error) {
+      console.log('Error: ', error);
+    } else {
+      services.createUser(body.username);
+    }
+  });
 });
 
 server.listen(8080);
