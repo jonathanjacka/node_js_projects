@@ -1,0 +1,24 @@
+{
+  "name": "image_upload_server",
+  "version": "1.0.0",
+  "description": "Fake image upload server to practice using node http module",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonathanjacka/node_js_projects.git"
+  },
+  "author": "Jonathan Jacka (https://jonathanjacka.com/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonathanjacka/node_js_projects/issues"
+  },
+  "homepage": "https://github.com/jonathanjacka/node_js_projects#readme",
+  "dependencies": {
+    "body": "^5.1.0",
+    "formidable": "^2.0.1"
+  }
+}
