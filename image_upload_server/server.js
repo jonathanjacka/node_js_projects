@@ -1,9 +1,13 @@
-const http = require('http');
+const https = require('https');
 const url = require('url');
 const services = require('./services');
 const jsonBody = require('body/json');
+const fs = require('fs');
 
-const server = http.createServer();
+const server = http.createServer({
+  key: fs.readFileSync('./key.pem'),
+  cert: fs.readFileSync('./cert.pem'),
+});
 
 /* REQUEST */
 server.on('request', (req, res) => {
@@ -26,6 +30,8 @@ server.on('request', (req, res) => {
       services.createUser(body.username);
     }
   });
+
+  Response.end('Served with HTTPS!!!');
 });
 
-server.listen(8080);
+server.listen(443);
