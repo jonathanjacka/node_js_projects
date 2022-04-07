@@ -1,8 +1,7 @@
-const http = require('https');
+const http = require('http');
 const url = require('url');
 const services = require('./services');
 const jsonBody = require('body/json');
-const fs = require('fs');
 
 const server = http.createServer();
 
@@ -29,13 +28,17 @@ server.on('request', (req, res) => {
         services.createUser(body.username);
       }
     });
+  } else {
+    res.writeHead(404, {
+      'X-Powered-By': 'Node',
+      'Content-Type': 'application/json',
+    });
+    res.end();
   }
 });
 
 const PORT = 8080;
 
 server.listen(PORT, () =>
-  console.log(
-    `Server is running http on PORT: ${PORT} - 'Hello how are you I'm fine...`
-  )
+  console.log(`Server is listening on PORT: ${PORT} - 'Hello there...'`)
 );
