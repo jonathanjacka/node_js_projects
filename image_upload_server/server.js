@@ -4,7 +4,7 @@ const services = require('./services');
 const jsonBody = require('body/json');
 const fs = require('fs');
 
-const server = http.createServer({
+const server = https.createServer({
   key: fs.readFileSync('./key.pem'),
   cert: fs.readFileSync('./cert.pem'),
 });
@@ -23,6 +23,7 @@ server.on('request', (req, res) => {
     console.log(headers);
   }
 
+  /* Parse req body */
   jsonBody(req, res, (error, body) => {
     if (error) {
       console.log('Error: ', error);
@@ -31,7 +32,11 @@ server.on('request', (req, res) => {
     }
   });
 
-  Response.end('Served with HTTPS!!!');
+  res.end('Served with HTTPS!!!');
 });
 
-server.listen(443);
+const PORT = 443;
+
+server.listen(PORT, () =>
+  console.log(`Server is running on PORT: ${PORT} - 'Hello there...'`)
+);
