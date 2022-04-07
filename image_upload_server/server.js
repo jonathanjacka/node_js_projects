@@ -1,18 +1,16 @@
-const https = require('https');
+const http = require('https');
 const url = require('url');
 const services = require('./services');
 const jsonBody = require('body/json');
 const fs = require('fs');
 
-const server = http.createServer({
-  key: fs.readFileSync('./key.pem'),
-  cert: fs.readFileSync('./cert.pem'),
-});
+const server = http.createServer();
 
 /* REQUEST */
 server.on('request', (req, res) => {
   const parsedUrl = url.parse(req.url, true);
 
+  /* GET image meta data */
   if (req.method === 'GET' && parsedUrl.pathname === '/metadata') {
     const { id } = parsedUrl.query;
 
@@ -21,17 +19,23 @@ server.on('request', (req, res) => {
 
     const headers = req.headers;
     console.log(headers);
+
+    /* POST new user */
+  } else if (req.method === 'POST' && parsedUrl.pathname === '/users') {
+    jsonBody(req, res, (error, body) => {
+      if (error) {
+        console.log('Error: ', error);
+      } else {
+        services.createUser(body.username);
+      }
+    });
   }
-
-  jsonBody(req, res, (error, body) => {
-    if (error) {
-      console.log('Error: ', error);
-    } else {
-      services.createUser(body.username);
-    }
-  });
-
-  Response.end('Served with HTTPS!!!');
 });
 
-server.listen(443);
+const PORT = 8080;
+
+server.listen(PORT, () =>
+  console.log(
+    `Server is running http on PORT: ${PORT} - 'Hello how are you I'm fine...`
+  )
+);
