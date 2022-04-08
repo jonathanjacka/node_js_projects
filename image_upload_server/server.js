@@ -14,10 +14,14 @@ server.on('request', (req, res) => {
     const { id } = parsedUrl.query;
 
     const metadata = services.fetchImageMetadata(id);
-    console.log('MetaData: ', metadata);
 
-    const headers = req.headers;
-    console.log(headers);
+    res.writeHead(200, {
+      'Content-Type': 'application/json',
+    });
+
+    const serializedJSON = JSON.stringify(metadata);
+    res.write(serializedJSON);
+    res.end();
 
     /* POST new user */
   } else if (req.method === 'POST' && parsedUrl.pathname === '/users') {
