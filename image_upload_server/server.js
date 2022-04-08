@@ -7,6 +7,17 @@ const server = http.createServer();
 
 /* REQUEST */
 server.on('request', (req, res) => {
+  req.on('error', (error) => {
+    console.error('request error: ', error.message);
+  });
+
+  res.on('error', (error) => {
+    console.error('response error: ', error.message);
+    res.statusCode = 500;
+    res.write('An error has occurred...');
+    res.end();
+  });
+
   const parsedUrl = url.parse(req.url, true);
 
   /* GET image meta data */
@@ -39,6 +50,9 @@ server.on('request', (req, res) => {
     });
     res.end();
   }
+
+  //TODO:
+  //Add error handling for req and res
 });
 
 const PORT = 8080;
