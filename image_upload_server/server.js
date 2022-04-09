@@ -2,6 +2,8 @@ const http = require('http');
 const url = require('url');
 const services = require('./services');
 const jsonBody = require('body/json');
+const fs = require('fs');
+const formidable = require('formidable');
 
 const server = http.createServer();
 
@@ -43,12 +45,25 @@ server.on('request', (req, res) => {
         services.createUser(body.username);
       }
     });
-  } else {
-    res.writeHead(404, {
-      'X-Powered-By': 'Node',
-      'Content-Type': 'application/json',
+  } else if (req.method === 'POST' && parsedUrl.pathname === '/upload') {
+    const form = new formidable.IncomingForm({
+      uploadDir: __dirname + '/images/imageUploads',
+      keepExtensions: true,
+      multiples: true,
+      maxFileSize: 5 * 1024 * 1024,
     });
-    res.end();
+    form.parse(req, (error, fields, files) => {
+      if (error) {
+        console.log('Error in form: ', error);
+        res.statusCode = 500;
+        res.end('Image upload failed...');
+      }
+      console.log('Fields: ', fields, '\nFiles: ', files);
+      res.statusCode = 200;
+      res.end('Upload success!');
+    });
+  } else {
+    fs.createReadStream('./index.html').pipe(res);
   }
 
   //TODO:
