@@ -45,29 +45,43 @@ server.on('request', (req, res) => {
         services.createUser(body.username);
       }
     });
+
+    //image upload
   } else if (req.method === 'POST' && parsedUrl.pathname === '/upload') {
     const form = new formidable.IncomingForm({
       uploadDir: __dirname + '/images/imageUploads',
       keepExtensions: true,
       multiples: true,
       maxFileSize: 5 * 1024 * 1024,
+      encoding: 'utf-8',
+      maxFields: 20,
     });
-    form.parse(req, (error, fields, files) => {
-      if (error) {
-        console.log('Error in form: ', error);
-        res.statusCode = 500;
-        res.end('Image upload failed...');
-      }
-      console.log('Fields: ', fields, '\nFiles: ', files);
-      res.statusCode = 200;
-      res.end('Upload success!');
-    });
+
+    //formidable functionality - check docs
+    form
+      .parse(req)
+      .on('fileBegin', (name, file) => console.log('File Upload beginning...'))
+      .on('file', (name, file) =>
+        console.log('Field and File Pair have been received!')
+      )
+      .on('field', (name, value) =>
+        console.log('Field Received: \n', name, value)
+      )
+      .on('progress', (bytesReceived, bytesExpected) => {
+        console.log(bytesReceived + ' / ' + bytesExpected);
+      })
+      .on('error', (error) => {
+        console.error('Error in upload: ', error);
+        req.resume();
+      })
+      .on('aborted', () => console.error('Error: Upload aborted by the user!'))
+      .on('end', () => {
+        console.log('Done - Upload complete!');
+        res.end('Success!');
+      });
   } else {
     fs.createReadStream('./index.html').pipe(res);
   }
-
-  //TODO:
-  //Add error handling for req and res
 });
 
 const PORT = 8080;
