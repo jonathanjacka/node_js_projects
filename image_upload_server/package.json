@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/jonathanjacka/node_js_projects#readme",
   "dependencies": {
+    "axios": "^0.26.1",
     "body": "^5.1.0",
     "formidable": "^2.0.1"
   }

@@ -40,8 +40,9 @@ server.on('request', (req, res) => {
   } else if (req.method === 'POST' && parsedUrl.pathname === '/users') {
     jsonBody(req, res, (error, body) => {
       if (error) {
-        console.log('Error: ', error);
+        console.log('Error with post: ', error);
       } else {
+        console.log(body);
         services.createUser(body.username);
       }
     });
