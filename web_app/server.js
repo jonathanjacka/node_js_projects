@@ -1,6 +1,7 @@
 const express = require('express');
-const morgan = require('morgan');
 const dotenv = require('dotenv');
+
+const morgan = require('morgan');
 
 dotenv.config({ path: './config.env' });
 
