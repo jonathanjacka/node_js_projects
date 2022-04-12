@@ -1,0 +1,28 @@
+{
+  "name": "web_app",
+  "version": "1.0.0",
+  "description": "simple web app using node and templating engine",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonathanjacka/node_js_projects.git"
+  },
+  "author": "Jonathan Jacka (https://jonathanjacka.com/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonathanjacka/node_js_projects/issues"
+  },
+  "homepage": "https://github.com/jonathanjacka/node_js_projects#readme",
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3"
+  }
+}
