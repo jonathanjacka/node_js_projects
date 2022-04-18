@@ -7,8 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "tailwind": "tailwindcss -i ./src/input.css -o ./public/css/main.css --watch",
     "sync:watch": "browser-sync start -p localhost:8080 -f ./public",
-    "dev": "DEBUG=app nodemon server.js",
-    "start": "npm-run-all --parallel dev tailwind sync:watch"
+    "nodemon": "DEBUG=app nodemon server.js",
+    "dev": "npm-run-all --parallel nodemon tailwind sync:watch",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
