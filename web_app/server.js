@@ -1,4 +1,5 @@
 const express = require('express');
+const engine = require('express-handlebars').engine;
 const path = require('path');
 const dotenv = require('dotenv');
 const colors = require('colors');
@@ -10,6 +11,19 @@ dotenv.config({ path: './config.env' });
 
 const app = express();
 
+//templating engine with handlebars
+app.engine(
+  'hbs',
+  engine({
+    layoutsDir: 'src/views/layouts/',
+    defaultLayout: 'main-layout',
+    extname: 'hbs',
+  })
+);
+app.set('view engine', 'hbs');
+app.set('views', './src/views');
+
+//logging with morgan
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
@@ -17,7 +31,27 @@ if (process.env.NODE_ENV === 'development') {
 //set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => res.send('Hello there!'));
+/**
+ * @desc     Get home page
+ * @route    GET /
+ * @access   Public
+ */
+app.get('/', (req, res) => {
+  res.status(200).render('index', {
+    pageTitle: 'Welcome!',
+  });
+});
+
+/**
+ * @desc     Returns 404 on bad route request
+ * @route    GET /{all errors}
+ * @access   Public
+ */
+app.use('/', (req, res) => {
+  res.status(404).render('error', {
+    pageTitle: 'Error',
+  });
+});
 
 app.use(errorHandler);
 
