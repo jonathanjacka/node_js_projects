@@ -28,35 +28,18 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+//import routes
+const routes = require('./src/routes');
+
 //set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-/**
- * @desc     Get home page
- * @route    GET /
- * @access   Public
- */
-app.get('/', (req, res) => {
-  res.status(200).render('index', {
-    pageTitle: 'Welcome!',
-  });
-});
-
-/**
- * @desc     Returns 404 on bad route request
- * @route    GET /{all errors}
- * @access   Public
- */
-app.use('/', (req, res) => {
-  res.status(404).render('error', {
-    pageTitle: 'Error',
-  });
-});
+//get routes
+app.use(routes);
 
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 8080;
-
 const server = app.listen(PORT, () =>
   debug(
     colors.green.inverse(`Server is active on port ${PORT} - hello there...`)

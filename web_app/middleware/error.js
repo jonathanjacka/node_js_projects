@@ -4,7 +4,7 @@ const errorHandler = (err, req, res, next) => {
   let error = { ...err };
 
   error.message = err.message;
-  debug(err.stack.red);
+  console.log(err.stack.red);
 
   error = new ErrorResponse(error.message, error.statusCode);
 
