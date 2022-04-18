@@ -5,8 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js",
-    "dev": "DEBUG=app nodemon server.js"
+    "tailwind": "tailwindcss -i ./src/input.css -o ./public/css/main.css --watch",
+    "sync:watch": "browser-sync start -p localhost:8080 -f ./public",
+    "dev": "DEBUG=app nodemon server.js",
+    "start": "npm-run-all --parallel dev tailwind sync:watch"
   },
   "repository": {
     "type": "git",
@@ -19,10 +21,13 @@
   },
   "homepage": "https://github.com/jonathanjacka/node_js_projects#readme",
   "devDependencies": {
+    "browser-sync": "^2.27.9",
     "colors": "^1.4.0",
     "debug": "^4.3.4",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "npm-run-all": "^4.1.5",
+    "tailwindcss": "^3.0.24"
   },
   "dependencies": {
     "dotenv": "^16.0.0",

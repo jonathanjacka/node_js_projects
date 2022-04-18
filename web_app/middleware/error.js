@@ -6,9 +6,11 @@ const errorHandler = (err, req, res, next) => {
   error.message = err.message;
   debug(err.stack.red);
 
+  error = new ErrorResponse(error.message, error.statusCode);
+
   res
     .status(error.statusCode || 500)
-    .send(`Something went wrong: ${error.statusCode}`);
+    .send(`Something went wrong: ${error.message}`);
 };
 
 module.exports = errorHandler;
