@@ -2,9 +2,9 @@ const router = require('express').Router();
 
 const { getHomePage, getError, getSession } = require('../controllers');
 
-router.get('/session-details/:sessionId', getSession);
+router.route('/session-details/:sessionId').get(getSession);
+router.route('/').get(getHomePage);
 
-router.get('/', getHomePage);
 router.use('/', getError);
 
 module.exports = router;
