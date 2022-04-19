@@ -1,6 +1,24 @@
 const data = require('../models/data');
 
 /**
+ * @desc     Get individual session with id
+ * @route    GET /session-details/:id
+ * @access   Public
+ */
+exports.getSession = (req, res, next) => {
+  const session = getSessionData(req.params.sessionId);
+  if (!session) {
+    res.redirect(`/error`);
+  } else {
+    res.status(200).render('session-details', {
+      pageTitle: `Session | ${session.name}`,
+      path: `/session-details/${session.id}`,
+      data: session,
+    });
+  }
+};
+
+/**
  * @desc     Get home page
  * @route    GET /
  * @access   Public
@@ -22,4 +40,9 @@ exports.getHomePage = (req, res, next) => {
  */
 exports.getError = (req, res, next) => {
   res.status(404).render('error', { pageTitle: 'Error' });
+};
+
+/* Util functions */
+const getSessionData = (sessionId) => {
+  return data.filter((item) => item.id === +sessionId)[0];
 };
