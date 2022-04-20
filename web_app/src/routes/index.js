@@ -1,4 +1,7 @@
 const router = require('express').Router();
+const debug = require('debug')('app:router');
+
+const mongodb = require('mongodb');
 
 const { getHomePage, getError, getSession } = require('../controllers');
 
