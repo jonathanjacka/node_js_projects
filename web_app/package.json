@@ -4,7 +4,8 @@
   "description": "simple web app using node and templating engine",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "import": "DEBUG=seeder node seeder.js -import",
+    "delete-all": "DEBUG=seeder node seeder.js -delete",
     "tailwind": "tailwindcss -i ./src/input.css -o ./public/css/main.css --watch",
     "sync:watch": "browser-sync start -p localhost:8080 -f ./public",
     "nodemon": "DEBUG=app:* nodemon server.js",
@@ -34,7 +35,6 @@
     "express": "^4.17.3",
     "express-handlebars": "^6.0.5",
     "mongodb": "^4.5.0",
-    "mongoose": "^6.3.0",
     "tailwindcss": "^3.0.24"
   }
 }

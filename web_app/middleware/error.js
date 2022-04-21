@@ -1,10 +1,12 @@
+const debug = require('debug')('app:error');
+
 const ErrorResponse = require('../utils/ErrorResponse');
 
 const errorHandler = (err, req, res, next) => {
   let error = { ...err };
 
   error.message = err.message;
-  console.log(err.stack.red);
+  debug(err.stack.red);
 
   error = new ErrorResponse(error.message, error.statusCode);
 
