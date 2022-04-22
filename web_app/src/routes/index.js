@@ -3,10 +3,15 @@ const debug = require('debug')('app:router');
 
 const mongodb = require('mongodb');
 
-const { getHomePage, getError, getSession } = require('../controllers');
+const {
+  getHomePage,
+  getError,
+  getSession,
+  getAllSessions,
+} = require('../controllers');
 
 router.route('/session-details/:sessionId').get(getSession);
-router.route('/').get(getHomePage);
+router.route('/').get(getAllSessions);
 
 router.use('/', getError);
 

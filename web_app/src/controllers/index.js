@@ -1,5 +1,27 @@
 const data = require('../models/data');
 
+const connectDB = require('../db');
+
+/**
+ * @desc     Get All sessions for home page
+ * @route    GET /
+ * @access   Public
+ */
+exports.getAllSessions = async (req, res, next) => {
+  const db = await connectDB();
+  const sessions = await db.collection('sessions').find().toArray();
+
+  console.log(`Here are our sessions: `, sessions.length);
+
+  res.status(200).render('index', {
+    pageTitle: 'Home | Welcome',
+    path: '/',
+    data,
+    hasData: data.length > 0,
+    activeHome: true,
+  });
+};
+
 /**
  * @desc     Get individual session with id
  * @route    GET /session-details/:id

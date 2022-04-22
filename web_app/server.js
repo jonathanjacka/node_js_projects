@@ -2,7 +2,6 @@ const express = require('express');
 const engine = require('express-handlebars').engine;
 const path = require('path');
 const dotenv = require('dotenv');
-const connectDB = require('./src/db');
 const errorHandler = require(`./middleware/error`);
 
 const debug = require('debug')('app:server');
@@ -10,7 +9,6 @@ const colors = require('colors');
 const morgan = require('morgan');
 
 dotenv.config({ path: './config.env' });
-connectDB();
 
 const app = express();
 
