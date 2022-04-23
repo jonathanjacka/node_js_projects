@@ -1,6 +1,5 @@
-const data = require('../models/data');
-
 const connectDB = require('../db');
+const { type } = require('express/lib/response');
 
 /**
  * @desc     Get All sessions for home page
@@ -11,13 +10,11 @@ exports.getAllSessions = async (req, res, next) => {
   const db = await connectDB();
   const sessions = await db.collection('sessions').find().toArray();
 
-  console.log(`Here are our sessions: `, sessions.length);
-
   res.status(200).render('index', {
     pageTitle: 'Home | Welcome',
     path: '/',
-    data,
-    hasData: data.length > 0,
+    sessions,
+    hasData: sessions.length > 0,
     activeHome: true,
   });
 };
