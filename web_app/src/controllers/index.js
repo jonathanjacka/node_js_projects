@@ -13,7 +13,12 @@ exports.getAllSessions = async (req, res, next) => {
   res.status(200).render('index', {
     pageTitle: 'Home | Welcome',
     path: '/',
-    sessions,
+    sessions: sessions.map((session) => {
+      return {
+        ...session,
+        description: getShortDescription(session.description),
+      };
+    }),
     hasData: sessions.length > 0,
     activeHome: true,
   });
@@ -64,4 +69,19 @@ exports.getError = (req, res, next) => {
 /* Util functions */
 const getSessionData = (sessionId) => {
   return data.filter((item) => item.id === +sessionId)[0];
+};
+
+const getShortDescription = (description) => {
+  description = description.split(' ');
+
+  if (description.length > 30) {
+    description = description.slice(0, 30);
+    description[description.length - 1] = '...';
+  }
+
+  description = description.join(' ');
+
+  // return description.split(' ').slice(0, 30).join(' ') + '...';
+
+  return description;
 };
