@@ -1,5 +1,5 @@
 const connectDB = require('../db');
-const { type } = require('express/lib/response');
+const { ObjectId } = require('mongodb');
 
 /**
  * @desc     Get All sessions for home page
@@ -29,15 +29,21 @@ exports.getAllSessions = async (req, res, next) => {
  * @route    GET /session-details/:id
  * @access   Public
  */
-exports.getSession = (req, res, next) => {
-  const session = getSessionData(req.params.sessionId);
+exports.getSession = async (req, res, next) => {
+  const sessionID = req.params.sessionId;
+  const session = await getSingleSessionData(sessionID);
+
+  console.log('SessionID:', sessionID, typeof sessionID);
+
+  console.log('Session: ', session);
+
   if (!session) {
     res.redirect(`/error`);
   } else {
     res.status(200).render('session-details', {
-      pageTitle: `Session | ${session.name}`,
+      pageTitle: `Session | ${session.title}`,
       path: `/session-details/${session.id}`,
-      data: session,
+      session,
     });
   }
 };
@@ -67,8 +73,12 @@ exports.getError = (req, res, next) => {
 };
 
 /* Util functions */
-const getSessionData = (sessionId) => {
-  return data.filter((item) => item.id === +sessionId)[0];
+const getSingleSessionData = async (sessionId) => {
+  const db = await connectDB();
+  const session = await db
+    .collection('sessions')
+    .findOne({ _id: new ObjectId(sessionId) });
+  return session;
 };
 
 const getShortDescription = (description) => {
@@ -80,8 +90,6 @@ const getShortDescription = (description) => {
   }
 
   description = description.join(' ');
-
-  // return description.split(' ').slice(0, 30).join(' ') + '...';
 
   return description;
 };

@@ -4,26 +4,22 @@
       <div class='lg:text-center'>
         <p
           class='mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl'
-        >{{data.name}}</p>
+        >{{session.title}}</p>
         <p class='mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto'>Session ID:
-          {{data.id}}</p>
+          {{session.id}}</p>
       </div>
     </div>
   </div>
 
   <div class='flex justify-center'>
     <div class='rounded-lg shadow-lg bg-white max-w-sm'>
-      <a href='#!'>
-        <img
-          class='rounded-t-lg'
-          src='https://mdbootstrap.com/img/new/standard/nature/184.jpg'
-          alt=''
-        />
-      </a>
+
+      <img class='rounded-t-lg' src='/images/conferenceSession.jpg' alt='' />
+
       <div class='p-6'>
-        <h5 class='text-gray-900 text-xl font-medium mb-2'>Card title</h5>
+        <h5 class='text-gray-900 text-xl font-medium mb-2'>Session Description:</h5>
         <p class='text-gray-700 text-base mb-4'>
-          {{data.description}}
+          {{session.description}}
         </p>
         <a
           href='/'
