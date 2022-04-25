@@ -7,7 +7,7 @@
     "import": "DEBUG=seeder node seeder.js -import",
     "delete-all": "DEBUG=seeder node seeder.js -delete",
     "tailwind": "tailwindcss -i ./src/input.css -o ./public/css/main.css --watch",
-    "sync:watch": "browser-sync start -p localhost:8080 -f ./public",
+    "sync:watch": "browser-sync start -p localhost:8080 -f ./",
     "nodemon": "DEBUG=app:* nodemon server.js",
     "dev": "npm-run-all --parallel nodemon tailwind sync:watch",
     "start": "node server.js"

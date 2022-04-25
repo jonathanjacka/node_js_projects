@@ -2,6 +2,32 @@ const connectDB = require('../db');
 const { ObjectId } = require('mongodb');
 
 /**
+ * @desc     Returns /register screen
+ * @route    GET /register
+ * @access   Public
+ */
+exports.getRegister = (req, res, next) => {
+  res.status(200).render('register', {
+    pageTitle: 'Home | Register',
+    path: '/register',
+    activeRegister: true,
+  });
+};
+
+/**
+ * @desc     Returns login screen
+ * @route    GET /login
+ * @access   Public
+ */
+exports.getLogin = (req, res, next) => {
+  res.status(200).render('login', {
+    pageTitle: 'Home | Login',
+    path: '/login',
+    activeLogin: true,
+  });
+};
+
+/**
  * @desc     Get All sessions for home page
  * @route    GET /
  * @access   Public
