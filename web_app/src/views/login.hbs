@@ -1,16 +1,70 @@
 <main>
   <div class='py-12 bg-white'>
     <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-      <div class='lg:text-center'>
+      <div class='text-center'>
         <p
           class='mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl'
         >Cool Conference 2022</p>
         <p class='mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto'>Weclome back.</p>
 
-        <div class=''>
-          Need to sign up?
-          <a href='/register'>Register here.</a>
+        <div class='flex w-full justify-center'>
+          <form
+            action='/auth/register'
+            name='register'
+            method='POST'
+            class='w-full lg:w-6/12 md:w-9/12 rounded shadow-lg my-10 bg-white px-8 pt-6 pb-8'
+          >
+            <legend class='text-center py-2 mb-2 font-bold text-2xl'>Log in to
+              your account</legend>
+
+            <div class='mb-4'>
+              <label
+                for='username'
+                class='block text-black-700 text-sm font-bold mb-2 text-left'
+              >Username</label>
+              <input
+                type='text'
+                id='username'
+                name='username'
+                placeholder='Enter your username'
+                required
+                class='shadow appearance-none border rounded w-full py-2 px-3 tex-gray-700 leading-tight focus:shadow-outline'
+              />
+            </div>
+
+            <div class='mb-4'>
+              <label
+                for='password'
+                class='block text-black-700 text-sm font-bold mb-2 text-left'
+              >Password</label>
+              <input
+                type='password'
+                id='password'
+                name='password'
+                placeholder='Enter your password'
+                required
+                class='shadow appearance-none border rounded w-full py-2 px-3 tex-gray-700 leading-tight focus:shadow-outline'
+              />
+            </div>
+
+            <div class='mb-4'>
+              <button
+                type='submit'
+                class='block m-auto w-40 bg-blue-500 hover:bg-blue-700 text-white text-center font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+              >Log In</button>
+            </div>
+
+          </form>
         </div>
+
+        <div class='w-full flex justify-center'>
+          Need to sign up?
+          <a
+            href='/register'
+            class='text-blue-500 font-bold hover:text-blue-700'
+          >&nbspRegister here.</a>
+        </div>
+
       </div>
     </div>
   </div>
