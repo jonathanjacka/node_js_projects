@@ -28,6 +28,26 @@ exports.getLogin = (req, res, next) => {
 };
 
 /**
+ * @desc     Handles user login
+ * @route    POST /auth/login
+ * @access   Private
+ */
+exports.userLogin = (req, res, next) => {
+  console.log('Logging in:', req.body);
+  res.redirect('/');
+};
+
+/**
+ * @desc     Handles user registration
+ * @route    POST /auth/registration
+ * @access   Private
+ */
+exports.userRegister = (req, res, next) => {
+  console.log('User registering...', req.body);
+  res.redirect('/');
+};
+
+/**
  * @desc     Get All sessions for home page
  * @route    GET /
  * @access   Public

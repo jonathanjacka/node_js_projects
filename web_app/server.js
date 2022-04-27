@@ -29,6 +29,10 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+//parsing
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 //import routes
 const routes = require('./src/routes');
 

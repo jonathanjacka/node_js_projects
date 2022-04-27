@@ -7,6 +7,8 @@ const {
   getHomePage,
   getRegister,
   getLogin,
+  userLogin,
+  userRegister,
   getError,
   getSession,
   getAllSessions,
@@ -14,6 +16,8 @@ const {
 
 router.route('/register').get(getRegister);
 router.route('/login').get(getLogin);
+router.route('/auth/login').post(userLogin);
+router.route('/auth/register').post(userRegister);
 router.route('/session-details/:sessionId').get(getSession);
 router.route('/').get(getAllSessions);
 
