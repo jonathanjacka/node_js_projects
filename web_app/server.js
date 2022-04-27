@@ -4,6 +4,10 @@ const path = require('path');
 const dotenv = require('dotenv');
 const errorHandler = require(`./middleware/error`);
 
+const passport = require('passport');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+
 const debug = require('debug')('app:server');
 const colors = require('colors');
 const morgan = require('morgan');
@@ -32,6 +36,12 @@ if (process.env.NODE_ENV === 'development') {
 //parsing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+//auth
+app.use(cookieParser());
+app.use(session({ secret: process.env.SECRET }));
+//passport
+require('./src/config/passport')(app);
 
 //import routes
 const routes = require('./src/routes');
