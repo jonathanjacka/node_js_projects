@@ -7,8 +7,11 @@ const {
   getHomePage,
   getRegister,
   getLogin,
-  userLogin,
-  userRegister,
+  handleLogin,
+  loginSuccess,
+  handleRegister,
+  registerSuccess,
+  getUserProfile,
   getError,
   getSession,
   getAllSessions,
@@ -16,8 +19,11 @@ const {
 
 router.route('/register').get(getRegister);
 router.route('/login').get(getLogin);
-router.route('/auth/login').post(userLogin);
-router.route('/auth/register').post(userRegister);
+router.route('/auth/login').post(handleLogin);
+router.route('/auth/register').post(handleRegister);
+router.route('/auth/loginSuccess').get(loginSuccess);
+router.route('/auth/registerSuccess').get(registerSuccess);
+router.route('/auth/profile').get(getUserProfile);
 router.route('/session-details/:sessionId').get(getSession);
 router.route('/').get(getAllSessions);
 

@@ -2,7 +2,7 @@ const connectDB = require('../db');
 const { ObjectId } = require('mongodb');
 
 /**
- * @desc     Returns /register screen
+ * @desc     Returns register screen for user sign up
  * @route    GET /register
  * @access   Public
  */
@@ -32,9 +32,19 @@ exports.getLogin = (req, res, next) => {
  * @route    POST /auth/login
  * @access   Private
  */
-exports.userLogin = (req, res, next) => {
+exports.handleLogin = (req, res, next) => {
   console.log('Logging in:', req.body);
-  res.redirect('/');
+  req.login(req.body, () => res.redirect('/auth/loginSuccess'));
+};
+
+/**
+ * @desc     Handles user login SUCCESS
+ * @route    POST /auth/loginSuccess
+ * @access   Private
+ */
+exports.loginSuccess = (req, res, next) => {
+  console.log('Successful login!');
+  res.redirect('/auth/profile');
 };
 
 /**
@@ -42,9 +52,41 @@ exports.userLogin = (req, res, next) => {
  * @route    POST /auth/registration
  * @access   Private
  */
-exports.userRegister = (req, res, next) => {
+exports.handleRegister = (req, res, next) => {
   console.log('User registering...', req.body);
-  res.redirect('/');
+
+  //TODO Create USER
+
+  req.login(req.body, () => res.redirect('/auth/registerSuccess'));
+};
+
+/**
+ * @desc     Handles user register SUCCESS
+ * @route    POST /auth/registerSuccess
+ * @access   Private
+ */
+exports.registerSuccess = (req, res, next) => {
+  console.log('Successful Registration!');
+  res.redirect('/auth/profile');
+};
+
+/**
+ * @desc     gets logged in user profile
+ * @route    GET /auth/profile
+ * @access   Private
+ */
+exports.getUserProfile = (req, res, next) => {
+  console.log('User: ', req.user);
+  const user = req.user;
+  if (!user) {
+    res.redirect('/login');
+  }
+  res.status(200).render('profile', {
+    pageTitle: 'Home | Logged In',
+    path: '/auth/profile',
+    activeLogin: true,
+    user,
+  });
 };
 
 /**

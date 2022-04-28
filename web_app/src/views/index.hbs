@@ -23,33 +23,36 @@
         <dl
           class='mt-10 space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10'
         >
+          {{#if hasData}}
+            {{#each sessions}}
 
-          {{#each sessions}}
+              <article class='w-full flex justify-center'>
 
-            <article class='w-full flex justify-center'>
-
-              <div class='max-w-sm rounded overflow-hidden shadow-lg'>
-                <div class='h-56 px-6 py-4 overflow-hidden'>
-                  <div class='font-bold text-xl mb-2'>{{this.title}}</div>
-                  <div class='h-52 overflow-hidden'>
-                    <p
-                      class='py-4 text-gray-700 text-base'
-                    >{{this.description}}</p>
+                <div class='max-w-sm rounded overflow-hidden shadow-lg'>
+                  <div class='h-56 px-6 py-4 overflow-hidden'>
+                    <div class='font-bold text-xl mb-2'>{{this.title}}</div>
+                    <div class='h-52 overflow-hidden'>
+                      <p
+                        class='py-4 text-gray-700 text-base'
+                      >{{this.description}}</p>
+                    </div>
                   </div>
+                  <div>
+                    <a
+                      href='/session-details/{{this._id}}'
+                      class='block m-auto w-40 bg-blue-500 hover:bg-blue-700 text-white text-center font-bold py-2 px-4 rounded'
+                    >Session Details</a>
+                  </div>
+                  <div class='px-6 pt-4 pb-2'></div>
                 </div>
-                <div>
-                  <a
-                    href='/session-details/{{this._id}}'
-                    class='block m-auto w-40 bg-blue-500 hover:bg-blue-700 text-white text-center font-bold py-2 px-4 rounded'
-                  >Session Details</a>
-                </div>
-                <div class='px-6 pt-4 pb-2'></div>
-              </div>
-            </article>
+              </article>
 
-            {{! End }}
+              {{! End }}
 
-          {{/each}}
+            {{/each}}
+          {{else}}
+            <h3>No sessions to show.</h3>
+          {{/if}}
 
         </dl>
 
