@@ -175,22 +175,8 @@ exports.getError = (req, res, next) => {
   res.status(404).render('error-login', { pageTitle: 'Error with login' });
 };
 
-/** AUTHORIZATION FOR PROTECTED ROUTES
- * @desc     Check to see if user is signed in to accesss protected routes
- * @route    ALL
- * @access   Public
- */
-exports.isProtected = (req, res, next) => {
-  if (!req.user) {
-    debug('User is not signed in!');
-    res.redirect('/register');
-  } else {
-    debug('User is present!');
-    next();
-  }
-};
+/*** Util functions ***/
 
-/* Util functions */
 const getSingleSessionData = async (sessionId) => {
   const db = await connectDB();
   const session = await db
@@ -210,4 +196,15 @@ const getShortDescription = (description) => {
   description = description.join(' ');
 
   return description;
+};
+
+//Check to see if user is signed in to accesss protected routes
+exports.isProtected = (req, res, next) => {
+  if (!req.user) {
+    debug('User is not signed in!');
+    res.redirect('/register');
+  } else {
+    debug('User is present!');
+    next();
+  }
 };
