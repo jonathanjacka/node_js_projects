@@ -1,5 +1,7 @@
 const connectDB = require('../db');
 const { ObjectId } = require('mongodb');
+const passport = require('passport');
+const debug = require('debug')('app:controllers');
 
 /**
  * @desc     Returns register screen for user sign up
@@ -33,17 +35,21 @@ exports.getLogin = (req, res, next) => {
  * @access   Private
  */
 exports.handleLogin = (req, res, next) => {
-  console.log('Logging in:', req.body);
-  req.login(req.body, () => res.redirect('/auth/loginSuccess'));
+  debug('Logging in:', req.body);
+  passport.authenticate('local', {
+    successRedirect: '/auth/loginSuccess',
+    failureRedirect: '/error-login',
+    failureMessage: true,
+  })(req, res, next);
 };
 
 /**
  * @desc     Handles user login SUCCESS
- * @route    POST /auth/loginSuccess
+ * @route    GET /auth/loginSuccess
  * @access   Private
  */
 exports.loginSuccess = (req, res, next) => {
-  console.log('Successful login!');
+  debug('Successful login!');
   res.redirect('/auth/profile');
 };
 
@@ -53,7 +59,7 @@ exports.loginSuccess = (req, res, next) => {
  * @access   Private
  */
 exports.handleRegister = async (req, res, next) => {
-  console.log('User registering...', req.body);
+  debug('User registering...', req.body);
 
   //Create user
   const { name, username, email, password } = req.body;
@@ -66,11 +72,11 @@ exports.handleRegister = async (req, res, next) => {
 
 /**
  * @desc     Handles user register SUCCESS
- * @route    POST /auth/registerSuccess
+ * @route    GET /auth/registerSuccess
  * @access   Private
  */
 exports.registerSuccess = (req, res, next) => {
-  console.log('Successful Registration!');
+  debug('Successful Registration!');
   res.redirect('/auth/profile');
 };
 
@@ -80,7 +86,7 @@ exports.registerSuccess = (req, res, next) => {
  * @access   Private
  */
 exports.getUserProfile = (req, res, next) => {
-  console.log('User: ', req.user);
+  debug('User: ', req.user);
   const user = req.user;
   if (!user) {
     res.redirect('/login');
@@ -96,7 +102,7 @@ exports.getUserProfile = (req, res, next) => {
 /**
  * @desc     Get All sessions for home page
  * @route    GET /
- * @access   Public
+ * @access   Private
  */
 exports.getAllSessions = async (req, res, next) => {
   const db = await connectDB();
@@ -119,7 +125,7 @@ exports.getAllSessions = async (req, res, next) => {
 /**
  * @desc     Get individual session with id
  * @route    GET /session-details/:id
- * @access   Public
+ * @access   Private
  */
 exports.getSession = async (req, res, next) => {
   const sessionID = req.params.sessionId;
@@ -153,11 +159,35 @@ exports.getHomePage = (req, res, next) => {
 
 /**
  * @desc     Returns 404 on bad route request
- * @route    GET /{all errors}
+ * @route    GET /error
  * @access   Public
  */
 exports.getError = (req, res, next) => {
   res.status(404).render('error', { pageTitle: 'Error' });
+};
+
+/**
+ * @desc     Returns 404 on bad RESOURCE request for login
+ * @route    GET /error-login
+ * @access   Public
+ */
+exports.getError = (req, res, next) => {
+  res.status(404).render('error-login', { pageTitle: 'Error with login' });
+};
+
+/** AUTHORIZATION FOR PROTECTED ROUTES
+ * @desc     Check to see if user is signed in to accesss protected routes
+ * @route    ALL
+ * @access   Public
+ */
+exports.isProtected = (req, res, next) => {
+  if (!req.user) {
+    debug('User is not signed in!');
+    res.redirect('/register');
+  } else {
+    debug('User is present!');
+    next();
+  }
 };
 
 /* Util functions */

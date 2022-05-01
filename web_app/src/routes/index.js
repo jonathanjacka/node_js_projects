@@ -5,6 +5,7 @@ const mongodb = require('mongodb');
 
 const {
   getHomePage,
+  isProtected,
   getRegister,
   getLogin,
   handleLogin,
@@ -24,8 +25,8 @@ router.route('/auth/register').post(handleRegister);
 router.route('/auth/loginSuccess').get(loginSuccess);
 router.route('/auth/registerSuccess').get(registerSuccess);
 router.route('/auth/profile').get(getUserProfile);
-router.route('/session-details/:sessionId').get(getSession);
-router.route('/').get(getAllSessions);
+router.route('/session-details/:sessionId').get(isProtected, getSession);
+router.route('/').get(isProtected, getAllSessions);
 
 router.use('/', getError);
 
