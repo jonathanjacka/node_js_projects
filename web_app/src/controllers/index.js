@@ -52,12 +52,16 @@ exports.loginSuccess = (req, res, next) => {
  * @route    POST /auth/registration
  * @access   Private
  */
-exports.handleRegister = (req, res, next) => {
+exports.handleRegister = async (req, res, next) => {
   console.log('User registering...', req.body);
 
-  //TODO Create USER
+  //Create user
+  const { name, username, email, password } = req.body;
+  const newUser = { name, username, email, password };
 
-  req.login(req.body, () => res.redirect('/auth/registerSuccess'));
+  const db = await connectDB();
+  const results = await db.collection('users').insertOne(newUser);
+  req.login(results.insertedId, () => res.redirect('/auth/registerSuccess'));
 };
 
 /**
@@ -120,10 +124,6 @@ exports.getAllSessions = async (req, res, next) => {
 exports.getSession = async (req, res, next) => {
   const sessionID = req.params.sessionId;
   const session = await getSingleSessionData(sessionID);
-
-  console.log('SessionID:', sessionID, typeof sessionID);
-
-  console.log('Session: ', session);
 
   if (!session) {
     res.redirect(`/error`);
