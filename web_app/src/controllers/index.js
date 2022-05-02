@@ -50,7 +50,13 @@ exports.handleLogin = (req, res, next) => {
  */
 exports.loginSuccess = (req, res, next) => {
   debug('Successful login!');
-  res.redirect('/auth/profile');
+  const user = req.user;
+  res.status(200).render('profile', {
+    pageTitle: `Profile | ${user.name || 'Home'}`,
+    path: '/profile',
+    isSignedIn: true,
+    user,
+  });
 };
 
 /**
