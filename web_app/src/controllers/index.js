@@ -1,6 +1,7 @@
 const connectDB = require('../db');
 const { ObjectId } = require('mongodb');
 const passport = require('passport');
+const bcrypt = require('bcrypt');
 const debug = require('debug')('app:controllers');
 
 /**
@@ -63,10 +64,20 @@ exports.handleRegister = async (req, res, next) => {
 
   //Create user
   const { name, username, email, password } = req.body;
-  const newUser = { name, username, email, password };
+
+  let newUser;
+
+  //encrypt password
+  const saltRounds = 10;
+  bcrypt.genSalt(saltRounds, function (err, salt) {
+    bcrypt.hash(password, salt, function (err, hash) {
+      newUser = { name, username, email, password: hash };
+    });
+  });
 
   const db = await connectDB();
   const results = await db.collection('users').insertOne(newUser);
+  debug('New User ID: ', results.insertedId);
   req.login(results.insertedId, () => res.redirect('/auth/registerSuccess'));
 };
 
