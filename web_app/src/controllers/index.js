@@ -36,7 +36,6 @@ exports.getLogin = (req, res, next) => {
  * @access   Private
  */
 exports.handleLogin = (req, res, next) => {
-  debug('Logging in:', req.body);
   passport.authenticate('local', {
     successRedirect: '/auth/loginSuccess',
     failureRedirect: '/error-login',
