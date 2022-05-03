@@ -13,7 +13,7 @@ exports.getRegister = (req, res, next) => {
   res.status(200).render('register', {
     pageTitle: 'Home | Register',
     path: '/register',
-    activeRegister: true,
+    isSignedIn: req.user ? true : false,
   });
 };
 
@@ -26,7 +26,7 @@ exports.getLogin = (req, res, next) => {
   res.status(200).render('login', {
     pageTitle: 'Home | Login',
     path: '/login',
-    activeLogin: true,
+    isSignedIn: req.user ? true : false,
   });
 };
 
@@ -54,7 +54,7 @@ exports.loginSuccess = (req, res, next) => {
   res.status(200).render('profile', {
     pageTitle: `Profile | ${user.name || 'Home'}`,
     path: '/profile',
-    isSignedIn: true,
+    isSignedIn: req.user ? true : false,
     user,
   });
 };
@@ -110,7 +110,7 @@ exports.getUserProfile = (req, res, next) => {
   res.status(200).render('profile', {
     pageTitle: 'Home | Logged In',
     path: '/auth/profile',
-    activeLogin: true,
+    isSignedIn: req.user ? true : false,
     user,
   });
 };
@@ -134,7 +134,7 @@ exports.getAllSessions = async (req, res, next) => {
       };
     }),
     hasData: sessions.length > 0,
-    activeHome: true,
+    isSignedIn: req.user ? true : false,
   });
 };
 
@@ -153,6 +153,7 @@ exports.getSession = async (req, res, next) => {
     res.status(200).render('session-details', {
       pageTitle: `Session | ${session.title}`,
       path: `/session-details/${session.id}`,
+      isSignedIn: req.user ? true : false,
       session,
     });
   }
@@ -169,7 +170,7 @@ exports.getHomePage = (req, res, next) => {
     path: '/',
     data,
     hasData: data.length > 0,
-    activeHome: true,
+    isSignedIn: req.user ? true : false,
   });
 };
 
@@ -218,7 +219,7 @@ const getShortDescription = (description) => {
 exports.isProtected = (req, res, next) => {
   if (!req.user) {
     debug('User is not signed in!');
-    res.redirect('/register');
+    res.redirect('/index');
   } else {
     debug('User is present!');
     next();
