@@ -106,13 +106,14 @@ exports.getUserProfile = (req, res, next) => {
   const user = req.user;
   if (!user) {
     res.redirect('/login');
+  } else {
+    res.status(200).render('profile', {
+      pageTitle: 'Home | Logged In',
+      path: '/auth/profile',
+      isSignedIn: req.user ? true : false,
+      user,
+    });
   }
-  res.status(200).render('profile', {
-    pageTitle: 'Home | Logged In',
-    path: '/auth/profile',
-    isSignedIn: req.user ? true : false,
-    user,
-  });
 };
 
 /**
@@ -124,7 +125,7 @@ exports.getAllSessions = async (req, res, next) => {
   const db = await connectDB();
   const sessions = await db.collection('sessions').find().toArray();
 
-  res.status(200).render('index', {
+  res.status(200).render('sessions', {
     pageTitle: 'Home | Welcome',
     path: '/',
     sessions: sessions.map((session) => {
@@ -165,13 +166,15 @@ exports.getSession = async (req, res, next) => {
  * @access   Public
  */
 exports.getHomePage = (req, res, next) => {
-  res.status(200).render('index', {
-    pageTitle: 'Home | Welcome',
-    path: '/',
-    data,
-    hasData: data.length > 0,
-    isSignedIn: req.user ? true : false,
-  });
+  if (req.user) {
+    res.redirect('/sessions');
+  } else {
+    res.status(200).render('index', {
+      pageTitle: 'Home | Welcome',
+      path: '/',
+      isSignedIn: req.user ? true : false,
+    });
+  }
 };
 
 /**
@@ -219,7 +222,7 @@ const getShortDescription = (description) => {
 exports.isProtected = (req, res, next) => {
   if (!req.user) {
     debug('User is not signed in!');
-    res.redirect('/index');
+    res.redirect('/register');
   } else {
     debug('User is present!');
     next();
