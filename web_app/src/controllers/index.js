@@ -83,7 +83,7 @@ exports.handleRegister = async (req, res, next) => {
   const db = await connectDB();
   const results = await db.collection('users').insertOne(newUser);
   debug('New User ID: ', results.insertedId);
-  req.login(results.insertedId, () => res.redirect('/auth/registerSuccess'));
+  req.login(newUser, () => res.redirect('/auth/registerSuccess'));
 };
 
 /**
@@ -108,7 +108,7 @@ exports.getUserProfile = (req, res, next) => {
     res.redirect('/login');
   } else {
     res.status(200).render('profile', {
-      pageTitle: 'Home | Logged In',
+      pageTitle: `Profile | ${user.name || 'Home'}`,
       path: '/auth/profile',
       isSignedIn: req.user ? true : false,
       user,
