@@ -72,22 +72,25 @@
             </div>
 
             <div class='mb-4'>
-              {{! <button
-                type='submit'
-                class='block m-auto w-40 bg-blue-500 hover:bg-blue-700 text-white text-center font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-              >Update/Edit</button> }}
             </div>
-
+            {{! <button
+              type='submit'
+              class='block m-auto w-40 bg-blue-500 hover:bg-blue-700 text-white text-center font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+            >Edit/Update</button> }}
           </form>
+
         </div>
 
-        {{! <div class='w-full flex justify-center'>
-          All done?
-          <a
-            href='/login'
-            class='text-blue-500 font-bold hover:text-blue-700'
-          >&nbspLog out.</a>
-        </div> }}
+        <div class='w-full flex justify-center'>
+          <form action='/auth/logout' method='post'>
+            All done?
+            <button
+              type='submit'
+              class='text-blue-500 font-bold hover:text-blue-700'
+            >&nbspLog out.</button>
+          </form>
+
+        </div>
       </div>
     </div>
   </main>

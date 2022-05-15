@@ -14,6 +14,7 @@ const {
   getError,
   getSession,
   getAllSessions,
+  logoutUser,
 } = require('../controllers');
 
 router.route('/register').get(getRegister);
@@ -23,6 +24,7 @@ router.route('/auth/register').post(handleRegister);
 router.route('/auth/loginSuccess').get(isProtected, loginSuccess);
 router.route('/auth/registerSuccess').get(isProtected, registerSuccess);
 router.route('/auth/profile').get(isProtected, getUserProfile);
+router.route('/auth/logout').post(logoutUser);
 router.route('/sessions/:sessionId').get(isProtected, getSession);
 router.route('/sessions').get(isProtected, getAllSessions);
 router.route('/').get(getHomePage);

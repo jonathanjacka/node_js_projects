@@ -117,8 +117,19 @@ exports.getUserProfile = (req, res, next) => {
 };
 
 /**
+ * @desc     logs out current user
+ * @route    POST /auth/logout
+ * @access   Private
+ */
+exports.logoutUser = (req, res, next) => {
+  debug('logging out...');
+  req.logout();
+  res.redirect('/');
+};
+
+/**
  * @desc     Get All sessions for home page
- * @route    GET /
+ * @route    GET /sessions
  * @access   Private
  */
 exports.getAllSessions = async (req, res, next) => {
